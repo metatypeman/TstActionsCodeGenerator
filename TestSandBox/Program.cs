@@ -1,5 +1,7 @@
 ﻿using NLog;
 using TestSandBox.Functors;
+using TestSandBox.SerializableObjects;
+using TestSandBox.Serialization;
 
 namespace TestSandBox
 {
@@ -13,7 +15,21 @@ namespace TestSandBox
 
             _logger.Info("Hello, World!");
 
-            Case1();
+            Case2();
+            //Case1();
+        }
+
+        private static void Case2()
+        {
+            BaseSerializableObject obj = new SerializableObject();
+
+            var serializable = obj as ISerializable;
+
+            _logger.Info($"serializable.GetPlainObjectType().FullName = {serializable.GetPlainObjectType().FullName}");
+
+            var plainObject = new SerializableObjectPo();
+
+            serializable.OnWritePlainObject(plainObject, null);
         }
 
         private static void Case1()
