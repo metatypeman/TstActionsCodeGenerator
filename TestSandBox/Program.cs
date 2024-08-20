@@ -15,8 +15,42 @@ namespace TestSandBox
 
             _logger.Info("Hello, World!");
 
-            Case2();
+            TstPlainObjectsRegistry();
+            //Case2();
             //Case1();
+        }
+
+        private static void TstPlainObjectsRegistry()
+        {
+            var usingsList = new List<string>()
+            {
+                "System",
+                "NLog",
+                "TestSandBox.SerializableObjects",
+                "TestSandBox.Serialization",
+                "TestSandBox",                
+                "TestSandBox.Functors",
+            };
+
+            var plainObjectsRegistry = new PlainObjectsRegistry();
+
+            plainObjectsRegistry.Add("TestSandBox.Functors.BaseClass", 0, "BaseClassPo");
+            plainObjectsRegistry.Add("TestSandBox.Functors.BaseClass", 1, "BaseClassPo_T");
+            plainObjectsRegistry.Add("TestSandBox.Functors.BaseClass", 2, "BaseClassPo_T_U");
+
+            plainObjectsRegistry.Add("TestSandBox.SomeClass", 0, "SomeClassPo");
+
+            var plainObject1 = plainObjectsRegistry.Get("TestSandBox.Functors.BaseClass", 1);
+
+            _logger.Info($"plainObject1 = '{plainObject1}'");
+
+            var plainObject2 = plainObjectsRegistry.Get(usingsList, "TestSandBox.Functors.BaseClass", 2);
+
+            _logger.Info($"plainObject2 = '{plainObject2}'");
+
+            var plainObject3 = plainObjectsRegistry.Get(usingsList, "BaseClass", 0);
+
+            _logger.Info($"plainObject3 = '{plainObject3}'");
         }
 
         private static void Case2()
