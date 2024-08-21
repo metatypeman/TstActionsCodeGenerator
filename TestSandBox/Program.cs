@@ -20,8 +20,47 @@ namespace TestSandBox
             //Case1();
         }
 
+        private static string ExtractNamespaceNameFromUsing(string usingContent)
+        {
+            _logger.Info($"usingContent = '{usingContent}'");
+
+            if (string.IsNullOrWhiteSpace(usingContent))
+            {
+                return string.Empty;
+            }
+
+            if (usingContent.Contains("=") ||
+                usingContent.Contains(" static "))
+            {
+                return string.Empty;
+            }
+
+            if(!usingContent.StartsWith("using "))
+            {
+                return string.Empty;
+            }
+
+            return usingContent.Trim().Substring(6).Replace(";", string.Empty).Trim();
+        }
+
         private static void TstPlainObjectsRegistry()
         {
+            var usingStr = ExtractNamespaceNameFromUsing("using System.Text;");
+
+            _logger.Info($"usingStr = '{usingStr}'");
+
+            usingStr = ExtractNamespaceNameFromUsing("using Project = PC.MyCompany.Project;");
+
+            _logger.Info($"usingStr = '{usingStr}'");
+
+            usingStr = ExtractNamespaceNameFromUsing("global using static System.Math;");
+
+            _logger.Info($"usingStr = '{usingStr}'");
+
+            usingStr = ExtractNamespaceNameFromUsing("using static System.Console;");
+
+            _logger.Info($"usingStr = '{usingStr}'");
+
             var usingsList = new List<string>()
             {
                 "System",
